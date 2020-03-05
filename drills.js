@@ -135,13 +135,13 @@ function isEmpty(list) {
 }
 
 function findPrevious(list, string) {
-      let tempNode = list.head;
-      while(tempNode.next !== null){
-        if(tempNode.next.value === string) {
-          return tempNode
-        }
-        tempNode = tempNode.next;
-      }
+  let tempNode = list.head;
+  while(tempNode.next !== null){
+    if(tempNode.next.value === string) {
+      return tempNode
+    }
+    tempNode = tempNode.next;
+  }
 }
 
 function findLast(list) {
@@ -175,3 +175,54 @@ function main() {
 }
 
 main();
+
+/**
+ * 4. Mystery Program - This function 'rotates' the list one data point forward. time complexity O(n^2)
+ * 
+ * function WhatDoesThisProgramDo(lst) {
+    let current = lst.head;
+    while (current !== null) {
+        let newNode = current;
+        while (newNode.next !== null) {
+            if (newNode.next.value === current.value) {
+                newNode.next = newNode.next.next;
+            }
+            else {
+                newNode = newNode.next;
+            }
+        }
+        current = current.next;
+    }
+}
+ * 5. Reverse a list
+   input: 1-2-3
+   output: 3-2-1
+
+   method: 
+   declare previous =this.head
+           current=this.head
+   use while(current.next !== null)
+   inside: previous.value = current.next.value
+   end of while loop: previous = current, current = current.next
+
+  const reverseList = (list) => {
+  if(list.head.next === null) {
+    return list.head;
+  }
+  let tempNode = list.head
+
+
+  return reverseList() + tempNode
+}
+
+6. 3rd from the end - while(tempNode.next.next !== null) return tempNode
+  func thirdFromEnd(list){
+    let tempNode = list.head
+    while(tempNode.next.next !== null) {
+      tempNode = tempNode.next
+    }
+    return tempNode;
+  }
+
+  7. Middle of List - run a while loop to count the entries in list = x, counter = Math.floor(x/2), run while( tempNode<=counter){tempNode = tempNode.next} afterwards return tempNode;
+ */
