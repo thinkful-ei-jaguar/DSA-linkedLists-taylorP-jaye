@@ -107,17 +107,54 @@ class LinkedList {
     }
     this.insertBefore(newItem, tempNode.value)
   }
-  print(){
-    let tempNode = this.head
-    while(tempNode !== null) {
-      console.log(tempNode)
-      tempNode = tempNode.next
-    }
+}
+
+function display(list){
+  let tempNode = list.head
+  while(tempNode !== null) {
+    console.log(tempNode)
+    tempNode = tempNode.next
   }
+}
+
+function size(list) {
+  let tempNode = list.head
+  let counter = 0
+  while(tempNode !== null) {
+    counter++
+    tempNode = tempNode.next
+  }
+  return counter
+}
+
+function isEmpty(list) {
+  if(!list.head) {
+    return true
+  }
+  else return false
+}
+
+function findPrevious(list, string) {
+      let tempNode = list.head;
+      while(tempNode.next !== null){
+        if(tempNode.next.value === string) {
+          return tempNode
+        }
+        tempNode = tempNode.next;
+      }
+}
+
+function findLast(list) {
+  let tempNode = list.head;
+  while(tempNode.next !== null){
+    tempNode = tempNode.next;
+  }
+  return tempNode
 }
 
 function main() {
   const SLL = new LinkedList();
+  const list = new LinkedList();
 
   SLL.insertFirst('Apollo');
   SLL.insertFirst('Boomer');
@@ -129,7 +166,12 @@ function main() {
   SLL.insertAfter('jaye', 'Boomer');
   SLL.insertAt('Kat', 3);
   SLL.remove('Tauhida');
-  SLL.print()
+  display(SLL)
+  console.log(size(SLL))
+  console.log(isEmpty(SLL))
+  console.log(isEmpty(list))
+  console.log(findPrevious(SLL, 'jaye'))
+  console.log(findLast(SLL))
 }
 
 main();
