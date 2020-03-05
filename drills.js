@@ -107,6 +107,13 @@ class LinkedList {
     }
     this.insertBefore(newItem, tempNode.value)
   }
+  loop(newItem) {
+    let tempNode = this.head;
+    while (tempNode.next !== null) {
+        tempNode = tempNode.next;
+    }
+    tempNode.next = new _Node(newItem, this.head);
+  }
 }
 
 function display(list){
@@ -174,7 +181,7 @@ function main() {
   console.log(findLast(SLL))
 }
 
-main();
+//main();
 
 /**
  * 4. Mystery Program - This function 'rotates' the list one data point forward. time complexity O(n^2)
@@ -225,4 +232,168 @@ main();
   }
 
   7. Middle of List - run a while loop to count the entries in list = x, counter = Math.floor(x/2), run while( tempNode<=counter){tempNode = tempNode.next} afterwards return tempNode;
+
+
+  8. while loop for every value
+     current node = list.head
+        while loop for every other value except current
+          if newNode.value = currentNode.value return true
+          new node = new node .next
+      current node = current node .next
+
+     return false
  */
+
+ function cycle(list) {
+   let current = list.head
+   while(current !== null) {
+      let newNode = current.next
+      while(newNode !== null){
+        if(newNode === current){ 
+            return true
+        }
+        newNode = newNode.next
+      }
+      current = current.next
+   }
+   return false
+ }
+
+ function main2() {
+   const link = new LinkedList()
+   link.insertFirst('3')
+   link.insertFirst('2')
+   link.insertFirst('1')
+   link.loop('4')
+   console.log(cycle(link))
+ }
+ //main2()
+
+ class _Node2 {
+  constructor(previous, value, next) {
+      this.value = value;
+      this.next = next;
+      this.previous = previous;
+  }
+}
+
+ class DoubleLinkedList {
+  constructor() {
+      this.head = null;
+      this.tail = null;
+  }
+
+  insertFirst(item) {
+    this.head = new _Node2(null, item, this.head);
+  }
+
+  insertLast(item) {
+    if (this.head === null) {
+        this.insertFirst(item);
+    }
+    else {
+        let tempNode = this.head;
+        while (tempNode.next !== null) {
+            tempNode = tempNode.next;
+        }
+        tempNode.next = new _Node2(tempNode, item, null);
+    }
+  }
+
+  find(item) { 
+    // Start at the head
+    let currNode = this.head;
+    // If the list is empty
+    if (!this.head) {
+        return null;
+    }
+    // Check for the item 
+    while (currNode.value !== item) {
+        /* Return null if it's the end of the list 
+           and the item is not on the list */
+        if (currNode.next === null) {
+            return null;
+        }
+        else {
+            // Otherwise, keep looking 
+            currNode = currNode.next;
+        }
+    }
+    // Found it
+    return currNode;
+  }
+
+  remove(item){ 
+    // If the list is empty
+    if (!this.head) {
+        return null;
+    }
+    // If the node to be removed is head, make the next node head
+    if (this.head.value === item) {
+        this.head = this.head.next;
+        return;
+    }
+    // Start at the head
+    let currNode = this.head;
+
+    while ((currNode !== null) && (currNode.value !== item)) {
+        currNode = currNode.next;
+    }
+    if (currNode === null) {
+        console.log('Item not found');
+        return;
+    }
+    let previousNode = currNode.previous;
+    currNode.next.previous = previousNode
+    previousNode.next = currNode.next
+    
+    
+  }
+
+  insertBefore(newItem, oldItem) {
+    // If the list is empty
+    if (!oldItem) {
+      return this.insertFirst(newItem);
+    }
+    let tempNode = this.head;
+    let oldNode = this.find(oldItem)
+    let newNode = new _Node2(oldNode.previous, newItem, oldNode)
+    while(tempNode.next !== null){
+      if(tempNode.next.value === oldNode.value) {
+        break;
+      }
+      tempNode = tempNode.next;
+    }
+    tempNode.next = newNode;
+    oldNode.previous = newNode;
+  }
+
+  insertAfter(newItem, oldItem) {
+    let oldNode = this.find(oldItem)
+    let newNode = new _Node2(oldNode, newItem, oldNode.next)
+    oldNode.next.previous = newNode
+    oldNode.next = newNode
+  }
+
+  insertAt(newItem, pos) {
+    let tempNode = this.head;
+    for(let i = 1; i<pos; i++){
+      if(!tempNode){
+        return 'Postion out of bounds'
+      }
+      tempNode = tempNode.next
+    }
+    this.insertBefore(newItem, tempNode.value)
+  }
+}
+
+function main3() {
+  const DLL = new DoubleLinkedList()
+  DLL.insertLast('Aquarius')
+  DLL.insertLast('Capricorn')
+  DLL.insertLast('Leo')
+  DLL.remove('Capricorn')
+  display(DLL)
+}
+
+main3()
